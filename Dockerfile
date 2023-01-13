@@ -26,3 +26,18 @@ COPY Churn_Prediction.csv ./raw_data/Churn_Prediction.csv
 COPY preprocessing_churn.py ./preprocessing_churn.py
 COPY train_churn.py ./train_churn.py
 COPY test_churn.py ./test_churn.py
+
+
+
+
+
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /app/requirements.txt
+
+WORKDIR /app
+
+RUN pip install -r requirements.txt
+
+COPY . /app
+
+CMD python /app/test_churn.py && python /app/server.py
